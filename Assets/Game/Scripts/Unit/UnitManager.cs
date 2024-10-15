@@ -1,18 +1,27 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Game.Scripts.Scopes.Root.Components;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer;
 
 namespace Game.Scripts.Unit
 {
-    [DisallowMultipleComponent]
-    public abstract class UnitManager<T> : MonoBehaviour where T : UnitBase
+    public class UnitManager<T> where T : UnitBase
     {
-        [SerializeField] private AssetReference _unitReference;
-        private T _prefab;
+        private readonly UnitParent _unitParent;
+        private AsyncOperationHandle<GameObject> _prefabHandle;
+        private T _prefabResult;
         private ObjectPool<T> _pool;
         private readonly List<T> _units = new();
+
+        [Inject]
+        public UnitManager(UnitParent unitParent)
+        {
+            _unitParent = unitParent;
+        }
 
         private ObjectPool<T> Pool
         {
@@ -30,16 +39,21 @@ namespace Game.Scripts.Unit
 
         public async UniTask LoadUnit()
         {
-            var unitObject = await Addressables.InstantiateAsync(_unitReference);
-            _prefab = unitObject.GetComponent<T>();
+            if (_prefabHandle.IsValid() && _prefabHandle.IsDone)
+            {
+                return;
+            }
+            _prefabHandle = Addressables.LoadAssetAsync<GameObject>(typeof(T).Name);
+            await _prefabHandle.ToUniTask();
+            _prefabResult = _prefabHandle.Result.GetComponent<T>();
         }
 
         public void ReleaseUnit()
         {
-            Addressables.ReleaseInstance(_prefab.gameObject);
+            Addressables.Release(_prefabHandle);
         }
 
-        private void InitPool(int initial = 10, int max = 100, bool collectionChecks = false)
+        private void InitPool(int initial = 1, int max = 100, bool collectionChecks = false)
         {
             Pool = new ObjectPool<T>(
                 CreateSetup,
@@ -51,10 +65,10 @@ namespace Game.Scripts.Unit
                 max);
         }
 
-        protected virtual T CreateSetup() => Instantiate(_prefab, transform);
+        protected virtual T CreateSetup() => Object.Instantiate(_prefabResult, _unitParent.Transform);
         protected virtual void GetSetup(T unit) => unit.gameObject.SetActive(true);
         protected virtual void ReleaseSetup(T unit) => unit.gameObject.SetActive(false);
-        protected virtual void DestroySetup(T unit) => Destroy(unit.gameObject);
+        protected virtual void DestroySetup(T unit) => Object.Destroy(unit.gameObject);
 
         public T AddUnit()
         {

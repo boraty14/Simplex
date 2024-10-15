@@ -55,7 +55,7 @@ namespace Game.Scripts.Panel
             OnOpened();
         }
 
-        public async UniTask Close(bool isImmediate)
+        public async UniTask Hide(bool isImmediate)
         {
             OnClosing();
 

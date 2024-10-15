@@ -9,9 +9,9 @@ namespace Game.Scripts.Memory
     {
         private readonly List<GameObject> _loadedObjects = new();
 
-        public async UniTask<T> LoadObject<T>(string reference)
+        public async UniTask<T> LoadObject<T>(string reference, Transform parent)
         {
-            var result = await Addressables.InstantiateAsync(reference);
+            var result = await Addressables.InstantiateAsync(reference, parent);
             _loadedObjects.Add(result);
             return result.GetComponent<T>();
         }
