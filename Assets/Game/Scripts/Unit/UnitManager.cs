@@ -50,6 +50,7 @@ namespace Game.Scripts.Unit
 
         public void ReleaseUnit()
         {
+            ClearUnits();
             Addressables.Release(_prefabHandle);
         }
 
