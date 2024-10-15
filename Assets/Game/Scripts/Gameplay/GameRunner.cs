@@ -13,7 +13,7 @@ namespace Game.Scripts.Gameplay
         
         private GameTaskRunner _gameTaskRunner;
         private SceneLoader _sceneLoader;
-        private UnitHandler _unitHandler;
+        private UnitRegistry _unitRegistry;
         private PanelHandler _panelHandler;
         private DynamicLoader _dynamicLoader;
 
@@ -21,7 +21,7 @@ namespace Game.Scripts.Gameplay
         {
             _gameTaskRunner = new GameTaskRunner();
             _sceneLoader = new SceneLoader();
-            _unitHandler = new UnitHandler();
+            _unitRegistry = new UnitRegistry();
             _panelHandler = new PanelHandler();
             _dynamicLoader = new DynamicLoader();
             _gameStateData = new GameStateData();

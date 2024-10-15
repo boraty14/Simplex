@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
 
 namespace Game.Scripts.Unit
@@ -7,7 +9,8 @@ namespace Game.Scripts.Unit
     [DisallowMultipleComponent]
     public abstract class UnitManager<T> : MonoBehaviour where T : UnitBase
     {
-        [SerializeField] protected T Prefab;
+        [SerializeField] private AssetReference _unitReference;
+        private T _prefab;
         private ObjectPool<T> _pool;
         private readonly List<T> _units = new();
 
@@ -25,6 +28,17 @@ namespace Game.Scripts.Unit
             set => _pool = value;
         }
 
+        public async UniTask LoadUnit()
+        {
+            var unitObject = await Addressables.InstantiateAsync(_unitReference);
+            _prefab = unitObject.GetComponent<T>();
+        }
+
+        public void ReleaseUnit()
+        {
+            Addressables.ReleaseInstance(_prefab.gameObject);
+        }
+
         private void InitPool(int initial = 10, int max = 100, bool collectionChecks = false)
         {
             Pool = new ObjectPool<T>(
@@ -37,7 +51,7 @@ namespace Game.Scripts.Unit
                 max);
         }
 
-        protected virtual T CreateSetup() => Instantiate(Prefab, transform);
+        protected virtual T CreateSetup() => Instantiate(_prefab, transform);
         protected virtual void GetSetup(T unit) => unit.gameObject.SetActive(true);
         protected virtual void ReleaseSetup(T unit) => unit.gameObject.SetActive(false);
         protected virtual void DestroySetup(T unit) => Destroy(unit.gameObject);
