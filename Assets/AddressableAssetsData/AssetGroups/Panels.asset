@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Panels
   m_GUID: 26813e655e85aad49b5ac409a44bdf44
-  m_SerializeEntries:
-  - m_GUID: 41a03162ed6af954cac5918be9c377e7
-    m_Address: DummyPanel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1439a079ff8ed694aa57c83d260dbecb, type: 2}
   m_SchemaSet:

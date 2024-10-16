@@ -33,9 +33,4 @@ namespace Game.Scripts.Scopes.Root
     }
 }
 
-// unitask update loop -> stop task
-// idisposable for systems
 // add messagepipe,r3
-// register to panels that is dynamically created.
-// load prefabs as child scopes
-// services instead of tasks????
