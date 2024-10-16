@@ -41,4 +41,12 @@ namespace Game.Scripts.Scopes.Root
     }
 }
 
+/*
+ * VContainer
+ * UniTask
+ * MessagePipe
+ * R3
+ * ZString
+ */
+
 // add messagepipe,r3
