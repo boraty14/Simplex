@@ -1,6 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
-using Game.Scripts.GameTask;
+using Game.Scripts.Core;
 using Game.Scripts.Panel;
 using VContainer;
 

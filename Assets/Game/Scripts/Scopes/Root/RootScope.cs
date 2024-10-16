@@ -1,4 +1,3 @@
-using Game.Scripts.GameTask;
 using Game.Scripts.Scopes.Root.Components;
 using Game.Scripts.Scopes.Root.EntryPoints;
 using Game.Scripts.Scopes.Root.GameTasks;
@@ -13,7 +12,6 @@ namespace Game.Scripts.Scopes.Root
         protected override void Configure(IContainerBuilder builder)
         {
             // services
-            builder.Register<GameTaskRunner>(Lifetime.Singleton);
             builder.Register<GameTaskService>(Lifetime.Singleton);
             builder.Register<SceneLoadService>(Lifetime.Singleton);
             builder.Register<DynamicLoadService>(Lifetime.Singleton);

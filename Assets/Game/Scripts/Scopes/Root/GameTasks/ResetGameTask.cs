@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Game.Scripts.GameTask;
+using Game.Scripts.Core;
 using Game.Scripts.Scopes.Main;
 using Game.Scripts.Scopes.Root.Services;
 using UnityEngine.SceneManagement;
@@ -11,16 +11,16 @@ namespace Game.Scripts.Scopes.Root.GameTasks
     {
         private readonly SceneLoadService _sceneLoadService;
         private readonly DynamicLoadService _dynamicLoadService;
-        private readonly GameTaskRunner _gameTaskRunner;
+        private readonly GameTaskService _gameTaskService;
         private readonly ScopeLoadService _scopeLoadService;
 
         [Inject]
         public ResetGameTask(SceneLoadService sceneLoadService, DynamicLoadService dynamicLoadService,
-            GameTaskRunner gameTaskRunner, ScopeLoadService scopeLoadService)
+            GameTaskService gameTaskService, ScopeLoadService scopeLoadService)
         {
             _sceneLoadService = sceneLoadService;
             _dynamicLoadService = dynamicLoadService;
-            _gameTaskRunner = gameTaskRunner;
+            _gameTaskService = gameTaskService;
             _scopeLoadService = scopeLoadService;
         }
 
@@ -28,7 +28,7 @@ namespace Game.Scripts.Scopes.Root.GameTasks
         {
             // do not touch order
 
-            _gameTaskRunner.ClearTasks();
+            _gameTaskService.ClearTasks();
             _dynamicLoadService.ReleaseLoadedObjects();
             _scopeLoadService.Reset();
             _sceneLoadService.Reset();
