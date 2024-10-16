@@ -6,29 +6,27 @@ using VContainer.Unity;
 
 namespace Game.Scripts.Dummy
 {
-    public class DummySubscriber : IPostInitializable
+    public class DummySubscriber : IPostInitializable, IDisposable
     {
         private readonly ISubscriber<DummyEvent> _dummySubscriber;
         private readonly IDisposable _disposable;
 
         [Inject]
-        public DummySubscriber(ISubscriber<DummyEvent> dummySubscriber, ISubscriber<int> dummy)
+        public DummySubscriber(ISubscriber<DummyEvent> dummySubscriber)
         {
-            var disposableBagBuilder = DisposableBag.CreateBuilder();
-            //_dummySubscriber = dummySubscriber;
-            dummySubscriber.Subscribe(dummyEvent => Debug.Log(dummyEvent.Id));
-            dummy.Subscribe(dummyEvent => Debug.Log(dummyEvent));
-            
+            _dummySubscriber = dummySubscriber;
         }
         
         public void PostInitialize()
         {
-            
+            var disposableBagBuilder = DisposableBag.CreateBuilder();
+            _dummySubscriber.Subscribe(dummyEvent => Debug.Log(dummyEvent.Id)).AddTo(disposableBagBuilder);
+            disposableBagBuilder.Build();
         }
         
-        // public void Dispose()
-        // {
-        //     _disposable?.Dispose();
-        // }
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+        }
     }
 }
