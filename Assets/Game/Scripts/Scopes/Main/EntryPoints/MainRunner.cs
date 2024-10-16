@@ -21,7 +21,7 @@ namespace Game.Scripts.Scopes.Main.EntryPoints
         public void Start()
         {
             _gameTaskService.AddTaskToQueue<TogglePanelsGameTask>(_container);
-            _gameTaskService.AddTaskToQueue<ResetGameTask>(_container);
+            _gameTaskService.AddTaskToQueue<RestartGameTask>(_container);
         }
     }
 }

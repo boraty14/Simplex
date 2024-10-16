@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Game.Scripts.Scopes.Root.GameTasks
 {
-    public class ResetGameTask : GameTaskBase
+    public class RestartGameTask : GameTaskBase
     {
         private readonly SceneLoadService _sceneLoadService;
         private readonly DynamicLoadService _dynamicLoadService;
@@ -15,7 +15,7 @@ namespace Game.Scripts.Scopes.Root.GameTasks
         private readonly ScopeLoadService _scopeLoadService;
 
         [Inject]
-        public ResetGameTask(SceneLoadService sceneLoadService, DynamicLoadService dynamicLoadService,
+        public RestartGameTask(SceneLoadService sceneLoadService, DynamicLoadService dynamicLoadService,
             GameTaskService gameTaskService, ScopeLoadService scopeLoadService)
         {
             _sceneLoadService = sceneLoadService;

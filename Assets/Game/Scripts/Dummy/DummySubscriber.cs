@@ -9,7 +9,7 @@ namespace Game.Scripts.Dummy
     public class DummySubscriber : IPostInitializable, IDisposable
     {
         private readonly ISubscriber<DummyEvent> _dummySubscriber;
-        private readonly IDisposable _disposable;
+        private IDisposable _disposable;
 
         [Inject]
         public DummySubscriber(ISubscriber<DummyEvent> dummySubscriber)
@@ -21,7 +21,7 @@ namespace Game.Scripts.Dummy
         {
             var disposableBagBuilder = DisposableBag.CreateBuilder();
             _dummySubscriber.Subscribe(dummyEvent => Debug.Log(dummyEvent.Id)).AddTo(disposableBagBuilder);
-            disposableBagBuilder.Build();
+            _disposable = disposableBagBuilder.Build();
         }
         
         public void Dispose()

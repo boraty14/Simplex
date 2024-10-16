@@ -24,11 +24,10 @@ namespace Game.Scripts.Scopes.Root
             builder.RegisterComponentInHierarchy<GameCamera>();
             
             // game tasks
-            builder.Register<ResetGameTask>(Lifetime.Transient);
+            builder.Register<RestartGameTask>(Lifetime.Transient);
             
             // entry points
             builder.RegisterEntryPoint<RootRunner>(Lifetime.Singleton);
-            
             
             // RegisterMessagePipe returns options.
             var options = builder.RegisterMessagePipe(/* configure option */);
@@ -36,7 +35,8 @@ namespace Game.Scripts.Scopes.Root
             builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
             
             // message pipe events
-            builder.RegisterMessageBroker<DummyEvent>(options);
+            //builder.RegisterMessageBroker<DummyEvent>(options);
+            
         }
     }
 }
@@ -46,6 +46,7 @@ namespace Game.Scripts.Scopes.Root
  * UniTask
  * MessagePipe
  * R3
+ * ObservableCollections-R3
  * ZString
  */
 
