@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Game.Scripts.Memory
+namespace Game.Scripts.Scopes.Root.Services
 {
-    public class DynamicLoader
+    public class DynamicLoadService : IDisposable
     {
         private readonly List<GameObject> _loadedObjects = new();
 
@@ -22,6 +23,11 @@ namespace Game.Scripts.Memory
             {
                 Addressables.ReleaseInstance(loadedObject);
             }
+        }
+
+        public void Dispose()
+        {
+            ReleaseLoadedObjects();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Game.Scripts.Panel
         public async UniTask LoadPanel<T>() where T : PanelBase
         {
             var panelKey = typeof(T);
+            //todo instantiate with resolve
             var panelObject = await Addressables.InstantiateAsync(typeof(T).Name,_panelParent.SpawnTransform);
             var loadedPanel = panelObject.GetComponent<T>();
             _loadedPanels.Add(panelKey,loadedPanel);

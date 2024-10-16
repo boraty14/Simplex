@@ -1,6 +1,7 @@
 using Dummy;
 using Game.Scripts.Panel;
 using Game.Scripts.Scopes.Main.EntryPoints;
+using Game.Scripts.Scopes.Main.GameTasks;
 using Game.Scripts.Scopes.Root.Components;
 using Game.Scripts.Unit;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Game.Scripts.Scopes.Main
             base.Configure(builder);
             
             // services
-            builder.Register<PanelManager>(Lifetime.Singleton);
+            builder.Register<PanelManager>(Lifetime.Scoped);
             
             // components
             builder.RegisterComponentInNewPrefab(_panelParentPrefab, Lifetime.Scoped)
@@ -27,10 +28,13 @@ namespace Game.Scripts.Scopes.Main
                 .UnderTransform(transform);
             
             // units
-            builder.Register<UnitManager<DummyUnit>>(Lifetime.Singleton);
+            builder.Register<UnitManager<DummyUnit>>(Lifetime.Scoped);
             
             // entry points
-            builder.RegisterEntryPoint<MainRunner>();
+            builder.RegisterEntryPoint<MainRunner>(Lifetime.Scoped);
+            
+            // game tasks
+            builder.Register<TogglePanelsGameTask>(Lifetime.Transient);
         }
     }
 }

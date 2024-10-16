@@ -7,12 +7,14 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using VContainer;
+using VContainer.Unity;
 using Object = UnityEngine.Object;
 
 namespace Game.Scripts.Unit
 {
     public class UnitManager<T> : IDisposable where T : UnitBase
     {
+        private readonly IObjectResolver _container;
         private readonly UnitParent _unitParent;
         private AsyncOperationHandle<GameObject> _prefabHandle;
         private T _prefabResult;
@@ -20,8 +22,9 @@ namespace Game.Scripts.Unit
         private readonly List<T> _units = new();
 
         [Inject]
-        public UnitManager(UnitParent unitParent)
+        public UnitManager(IObjectResolver container, UnitParent unitParent)
         {
+            _container = container;
             _unitParent = unitParent;
         }
 
@@ -33,7 +36,7 @@ namespace Game.Scripts.Unit
                 {
                     InitPool();
                 }
-                
+
                 return _pool;
             }
             set => _pool = value;
@@ -45,6 +48,7 @@ namespace Game.Scripts.Unit
             {
                 return;
             }
+
             _prefabHandle = Addressables.LoadAssetAsync<GameObject>(typeof(T).Name);
             await _prefabHandle.ToUniTask();
             _prefabResult = _prefabHandle.Result.GetComponent<T>();
@@ -68,7 +72,7 @@ namespace Game.Scripts.Unit
                 max);
         }
 
-        protected virtual T CreateSetup() => Object.Instantiate(_prefabResult, _unitParent.Transform);
+        protected virtual T CreateSetup() => _container.Instantiate(_prefabResult, _unitParent.Transform);
         protected virtual void GetSetup(T unit) => unit.gameObject.SetActive(true);
         protected virtual void ReleaseSetup(T unit) => unit.gameObject.SetActive(false);
         protected virtual void DestroySetup(T unit) => Object.Destroy(unit.gameObject);

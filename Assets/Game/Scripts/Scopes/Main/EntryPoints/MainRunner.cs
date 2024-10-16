@@ -1,10 +1,6 @@
-using System;
-using Cysharp.Threading.Tasks;
-using Dummy;
-using Game.Scripts.GameTask;
-using Game.Scripts.Panel;
+using Game.Scripts.Scopes.Main.GameTasks;
 using Game.Scripts.Scopes.Root.GameTasks;
-using Game.Scripts.Unit;
+using Game.Scripts.Scopes.Root.Services;
 using VContainer;
 using VContainer.Unity;
 
@@ -13,34 +9,19 @@ namespace Game.Scripts.Scopes.Main.EntryPoints
     public class MainRunner : IStartable
     {
         private readonly IObjectResolver _container;
-        private readonly UnitManager<DummyUnit> _dummyUnitManager;
-        private readonly PanelManager _panelManager;
-        private readonly GameTaskRunner _gameTaskRunner;
+        private readonly GameTaskService _gameTaskService;
 
         [Inject]
-        public MainRunner(IObjectResolver container, UnitManager<DummyUnit> dummyUnitManager, PanelManager panelManager, GameTaskRunner gameTaskRunner)
+        public MainRunner(IObjectResolver container, GameTaskService gameTaskService)
         {
             _container = container;
-            _dummyUnitManager = dummyUnitManager;
-            _panelManager = panelManager;
-            _gameTaskRunner = gameTaskRunner;
-        }
-
-        private async UniTaskVoid LoadAndAddUnit()
-        {
-            await _dummyUnitManager.LoadUnit();
-            _dummyUnitManager.AddUnit();
-            await _panelManager.LoadPanel<DummyPanel>();
-            await _panelManager.ShowPanel<DummyPanel>();
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-            await _panelManager.HidePanel<DummyPanel>();
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-            _gameTaskRunner.AddTaskToQueue(_container.Resolve<ResetGameTask>());
+            _gameTaskService = gameTaskService;
         }
 
         public void Start()
         {
-            LoadAndAddUnit().Forget();
+            _gameTaskService.AddTaskToQueue<TogglePanelsGameTask>(_container);
+            _gameTaskService.AddTaskToQueue<ResetGameTask>(_container);
         }
     }
 }

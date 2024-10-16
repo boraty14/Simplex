@@ -1,26 +1,21 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Game.Scripts.GameTask
 {
-    public class GameTaskRunner
+    public class GameTaskRunner : IDisposable
     {
         private readonly Queue<GameTaskBase> _gameTaskQueue = new();
         private bool _isRunning;
+        public bool IsEnabled = true;
 
-        public void Clear()
-        {
-            _gameTaskQueue.Clear();
-        }
-
-        public static async UniTask RunTaskIndependent(GameTaskBase gameTask, Action onFinal = null)
+        public async UniTask RunTaskIndependent(GameTaskBase gameTask, Action onComplete = null)
         {
             using (gameTask)
             {
-                await ExecuteGameTask(gameTask);
-                onFinal?.Invoke();
+                await gameTask.Run();
+                onComplete?.Invoke();
             }
         }
 
@@ -39,36 +34,25 @@ namespace Game.Scripts.GameTask
 
             while (_gameTaskQueue.Count > 0)
             {
+                while (!IsEnabled)
+                {
+                    await UniTask.Yield();
+                }
                 using var gameTask = _gameTaskQueue.Dequeue();
-                await ExecuteGameTask(gameTask);
+                await gameTask.Run();
             }
 
             _isRunning = false;
         }
-
-        private static async UniTask ExecuteGameTask(GameTaskBase gameTask)
+        
+        public void ClearTasks()
         {
-            try
-            {
-                await gameTask.Run();
-            }
-            catch (Exception runException)
-            {
-                Debug.LogException(runException);
-                HandleTaskError(gameTask);
-            }
+            _gameTaskQueue.Clear();
         }
 
-        private static void HandleTaskError(GameTaskBase gameTask)
+        public void Dispose()
         {
-            try
-            {
-                gameTask.HandleError();
-            }
-            catch (Exception handleErrorException)
-            {
-                Debug.LogException(handleErrorException);
-            }
+            ClearTasks();
         }
     }
 }

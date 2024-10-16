@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -6,22 +7,14 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace Game.Scripts.Scene
+namespace Game.Scripts.Scopes.Root.Services
 {
-    public class SceneLoader
+    public class SceneLoadService : IDisposable
     {
         private readonly Dictionary<string, AsyncOperationHandle<SceneInstance>> _loadedScenes = new();
         private string _lastLoadedScene = string.Empty;
-
-        public void Reset()
-        {
-            foreach (var loadedSceneKey in _loadedScenes.Keys)
-            {
-                UnloadScene(loadedSceneKey);
-            }
-        }
-
-        public void LoadScene(string sceneKey,bool unloadLastLoadedScene = true)
+        
+        public void LoadScene(string sceneKey, bool unloadLastLoadedScene = true)
         {
             if (_loadedScenes.ContainsKey(sceneKey))
             {
@@ -61,18 +54,19 @@ namespace Game.Scripts.Scene
             {
                 UnloadScene(_lastLoadedScene);
             }
+
             _lastLoadedScene = sceneKey;
         }
 
         private async UniTaskVoid UnloadSceneInternal(string sceneKey)
         {
             var loadHandle = _loadedScenes[sceneKey];
-            
+
             if (!loadHandle.Result.Scene.isLoaded)
             {
                 return;
             }
-            
+
             var unloadHandle = Addressables.UnloadSceneAsync(loadHandle, false);
             await unloadHandle.ToUniTask();
 
@@ -83,6 +77,19 @@ namespace Game.Scripts.Scene
             }
 
             _loadedScenes.Remove(sceneKey);
+        }
+
+        public void Reset()
+        {
+            foreach (var loadedSceneKey in _loadedScenes.Keys)
+            {
+                UnloadScene(loadedSceneKey);
+            }
+        }
+
+        public void Dispose()
+        {
+            Reset();
         }
     }
 }

@@ -7,11 +7,6 @@ namespace Game.Scripts.GameTask
     {
         public abstract UniTask Run();
 
-        public virtual void HandleError()
-        {
-            
-        }
-
         public virtual void Dispose()
         {
             
