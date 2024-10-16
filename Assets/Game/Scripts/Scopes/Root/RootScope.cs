@@ -2,6 +2,7 @@ using Game.Scripts.Scopes.Root.Components;
 using Game.Scripts.Scopes.Root.EntryPoints;
 using Game.Scripts.Scopes.Root.GameTasks;
 using Game.Scripts.Scopes.Root.Services;
+using MessagePipe;
 using VContainer;
 using VContainer.Unity;
 
@@ -26,8 +27,10 @@ namespace Game.Scripts.Scopes.Root
             
             // entry points
             builder.RegisterEntryPoint<RootRunner>(Lifetime.Singleton);
+            
+            // Setup GlobalMessagePipe to enable diagnostics window and global function
+            builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
         }
-        
     }
 }
 
