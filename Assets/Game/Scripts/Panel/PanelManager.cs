@@ -12,21 +12,18 @@ namespace Game.Scripts.Panel
     {
         private readonly Dictionary<Type, PanelBase> _loadedPanels = new();
         private readonly PanelParent _panelParent;
-        private readonly RootUICamera _rootUICamera;
 
         [Inject]
-        public PanelManager(PanelParent panelParent, RootUICamera rootUICamera)
+        public PanelManager(PanelParent panelParent)
         {
             _panelParent = panelParent;
-            _rootUICamera = rootUICamera;
         }
 
         public async UniTask LoadPanel<T>() where T : PanelBase
         {
             var panelKey = typeof(T);
-            var panelObject = await Addressables.InstantiateAsync(typeof(T).Name,_panelParent.Transform);
+            var panelObject = await Addressables.InstantiateAsync(typeof(T).Name,_panelParent.SpawnTransform);
             var loadedPanel = panelObject.GetComponent<T>();
-            loadedPanel.Canvas.worldCamera = _rootUICamera.Camera;
             _loadedPanels.Add(panelKey,loadedPanel);
         }
         

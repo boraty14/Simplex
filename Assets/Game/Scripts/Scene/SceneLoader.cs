@@ -13,6 +13,14 @@ namespace Game.Scripts.Scene
         private readonly Dictionary<string, AsyncOperationHandle<SceneInstance>> _loadedScenes = new();
         private string _lastLoadedScene = string.Empty;
 
+        public void Reset()
+        {
+            foreach (var loadedSceneKey in _loadedScenes.Keys)
+            {
+                UnloadScene(loadedSceneKey);
+            }
+        }
+
         public void LoadScene(string sceneKey,bool unloadLastLoadedScene = true)
         {
             if (_loadedScenes.ContainsKey(sceneKey))

@@ -10,6 +10,11 @@ namespace Game.Scripts.GameTask
         private readonly Queue<GameTaskBase> _gameTaskQueue = new();
         private bool _isRunning;
 
+        public void Clear()
+        {
+            _gameTaskQueue.Clear();
+        }
+
         public static async UniTask RunTaskIndependent(GameTaskBase gameTask, Action onFinal = null)
         {
             using (gameTask)

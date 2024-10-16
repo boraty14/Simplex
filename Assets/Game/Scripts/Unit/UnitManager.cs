@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Scopes.Root.Components;
@@ -6,10 +7,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using VContainer;
+using Object = UnityEngine.Object;
 
 namespace Game.Scripts.Unit
 {
-    public class UnitManager<T> where T : UnitBase
+    public class UnitManager<T> : IDisposable where T : UnitBase
     {
         private readonly UnitParent _unitParent;
         private AsyncOperationHandle<GameObject> _prefabHandle;
@@ -127,5 +129,11 @@ namespace Game.Scripts.Unit
         public IReadOnlyCollection<T> GetUnits() => _units;
         public int GetCount() => _units.Count;
         public bool IsEmpty() => GetCount() == 0;
+
+        public void Dispose()
+        {
+            _pool?.Dispose();
+            ReleaseUnit();
+        }
     }
 }
