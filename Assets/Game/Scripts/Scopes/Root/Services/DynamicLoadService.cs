@@ -23,6 +23,8 @@ namespace Game.Scripts.Scopes.Root.Services
             {
                 Addressables.ReleaseInstance(loadedObject);
             }
+
+            _loadedObjects.Clear();
         }
 
         public void Dispose()

@@ -1,6 +1,5 @@
 using Game.Scripts.Core.Panel;
 using Game.Scripts.Core.Unit;
-using Game.Scripts.Dummy;
 using Game.Scripts.Scopes.Main.EntryPoints;
 using Game.Scripts.Scopes.Main.GameTasks;
 using UnityEngine;
@@ -28,8 +27,6 @@ namespace Game.Scripts.Scopes.Main
             
             // entry points
             builder.RegisterEntryPoint<MainRunner>(Lifetime.Scoped);
-            builder.RegisterEntryPoint<DummySubscriber>(Lifetime.Scoped);
-            builder.RegisterEntryPoint<DummyPublisher>(Lifetime.Scoped);
             
             // game tasks
             builder.Register<WaitBeforeRestartGameTask>(Lifetime.Transient);
