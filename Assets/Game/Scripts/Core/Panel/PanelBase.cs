@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Game.Scripts.Core.Settings;
 using PrimeTween;
 using UnityEngine;
 
@@ -111,7 +112,7 @@ namespace Game.Scripts.Core.Panel
     [Serializable]
     public class PanelAnimations
     {
-        public PanelAnimationData openingAnimation;
-        public PanelAnimationData closingAnimation;
+        public PanelAnimationSettings openingAnimation;
+        public PanelAnimationSettings closingAnimation;
     }
 }
