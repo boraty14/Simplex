@@ -29,7 +29,7 @@ namespace Game.Scripts.Scopes.Main
             builder.RegisterEntryPoint<MainRunner>(Lifetime.Scoped);
             
             // game tasks
-            builder.Register<WaitBeforeRestartGameTask>(Lifetime.Transient);
+            builder.Register<LoadMainScopeGameTask>(Lifetime.Transient);
         }
     }
 }
