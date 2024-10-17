@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEngine;
 
-namespace Game.Scripts.Panel
+namespace Game.Scripts.Core.Panel
 {
     [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(Canvas))]

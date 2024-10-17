@@ -1,7 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 
-namespace Game.Scripts.Core
+namespace Game.Scripts.Core.GameTask
 {
     public abstract class GameTaskBase : IDisposable
     {

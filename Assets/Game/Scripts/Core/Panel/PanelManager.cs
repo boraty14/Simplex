@@ -9,9 +9,9 @@ using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
-namespace Game.Scripts.Panel
+namespace Game.Scripts.Core.Panel
 {
-    public class PanelManager
+    public class PanelManager : IDisposable
     {
         private readonly Dictionary<Type, PanelReference> _loadedPanels = new();
         private readonly IObjectResolver _container;
@@ -90,6 +90,14 @@ namespace Game.Scripts.Panel
 
             Debug.LogError($"Panel {panelKey} is not found");
             return null;
+        }
+
+        public void Dispose()
+        {
+            foreach (var panelReference in _loadedPanels.Values)
+            {
+                Addressables.Release(panelReference.PanelHandle);
+            }
         }
     }
 

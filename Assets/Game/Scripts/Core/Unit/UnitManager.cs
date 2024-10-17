@@ -10,7 +10,7 @@ using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
-namespace Game.Scripts.Unit
+namespace Game.Scripts.Core.Unit
 {
     public class UnitManager<T> : IDisposable where T : UnitBase
     {

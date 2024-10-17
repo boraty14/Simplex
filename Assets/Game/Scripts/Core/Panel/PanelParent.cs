@@ -1,7 +1,8 @@
+using Game.Scripts.Scopes.Root.Components;
 using UnityEngine;
 using VContainer;
 
-namespace Game.Scripts.Scopes.Root.Components
+namespace Game.Scripts.Core.Panel
 {
     public class PanelParent : MonoBehaviour
     {

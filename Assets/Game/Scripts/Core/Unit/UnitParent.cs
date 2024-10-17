@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Scripts.Scopes.Root.Components
+namespace Game.Scripts.Core.Unit
 {
     public class UnitParent : MonoBehaviour
     {

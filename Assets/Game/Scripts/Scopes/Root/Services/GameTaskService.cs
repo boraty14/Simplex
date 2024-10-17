@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Game.Scripts.Core;
+using Game.Scripts.Core.GameTask;
 using VContainer;
 
 namespace Game.Scripts.Scopes.Root.Services

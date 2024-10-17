@@ -1,4 +1,3 @@
-using Game.Scripts.Dummy;
 using Game.Scripts.Scopes.Root.Components;
 using Game.Scripts.Scopes.Root.EntryPoints;
 using Game.Scripts.Scopes.Root.GameTasks;
@@ -22,6 +21,7 @@ namespace Game.Scripts.Scopes.Root
             // components
             builder.RegisterComponentInHierarchy<RootUICamera>();
             builder.RegisterComponentInHierarchy<GameCamera>();
+            builder.RegisterComponentInHierarchy<RootPanelParent>();
 
             // game tasks
             builder.Register<RestartGameTask>(Lifetime.Transient);
@@ -48,5 +48,3 @@ namespace Game.Scripts.Scopes.Root
  * ObservableCollections-R3
  * ZString
  */
-
-// add messagepipe,r3
