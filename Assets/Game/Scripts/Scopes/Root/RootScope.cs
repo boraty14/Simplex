@@ -23,11 +23,11 @@ namespace Game.Scripts.Scopes.Root
             builder.RegisterComponentInHierarchy<GameCamera>();
             builder.RegisterComponentInHierarchy<RootPanelParent>();
 
-            // game tasks
-            builder.Register<RestartGameTask>(Lifetime.Transient);
-
             // entry points
             builder.RegisterEntryPoint<RootRunner>(Lifetime.Singleton);
+            
+            // game tasks
+            builder.Register<RestartGameTask>(Lifetime.Transient);
 
             // RegisterMessagePipe returns options.
             var options = builder.RegisterMessagePipe( /* configure option */);
