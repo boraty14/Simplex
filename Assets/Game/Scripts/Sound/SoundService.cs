@@ -41,6 +41,15 @@ namespace Game.Scripts.Sound
 
         public void ReturnToPool(SoundEmitter soundEmitter) => _soundEmitterPool.Release(soundEmitter);
 
+        public void StopAllSound()
+        {
+            var soundEmitters = _activeSoundEmitters.ToArray();
+            foreach (var soundEmitter in soundEmitters)
+            {
+                soundEmitter.Stop();
+            }
+        }
+
         private void InitPool()
         {
             _soundEmitterPool = new ObjectPool<SoundEmitter>(
