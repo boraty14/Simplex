@@ -36,7 +36,7 @@ namespace Game.Scripts.Sound
 
         public void Play()
         {
-            if (_soundService.CanPlaySound(_soundData))
+            if (!_soundService.CanPlaySound(_soundData))
             {
                 return;
             }

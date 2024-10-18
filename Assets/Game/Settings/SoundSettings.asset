@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 669f251194b14bb3a7e5f163eda7d3b0, type: 3}
-  m_Name: SoundManagerSettings
+  m_Name: SoundSettings
   m_EditorClassIdentifier: 
   soundEmitterPrefab: {fileID: 324100110911625348, guid: f1c797cd50bb4274ea687d2a506c33d2, type: 3}
   collectionCheck: 0
   defaultCapacity: 1
   maxPoolSize: 100
   maxSoundInstances: 30
+  gameStartSoundData:
+    clip: {fileID: 8300000, guid: 49aa9cae657c3c54aabff089ee32ab30, type: 3}
+    mixerGroup: {fileID: 24300002, guid: 069baebd384e2134da2858516dcfe23f, type: 2}
+    loop: 0
+    playOnAwake: 0

@@ -7,25 +7,21 @@ using Object = UnityEngine.Object;
 
 namespace Game.Scripts.Sound
 {
-    public class SoundService : IPostInitializable, IDisposable
+    public class SoundService : IDisposable
     {
         private readonly IObjectResolver _container;
-        private readonly SoundManagerSettings _soundManagerSettings;
+        private readonly SoundSettings _soundSettings;
         private readonly SoundParent _soundParent;
         private readonly List<SoundEmitter> _activeSoundEmitters = new();
         public readonly Dictionary<SoundData, int> Counts = new();
         private IObjectPool<SoundEmitter> _soundEmitterPool;
 
-        public SoundService(IObjectResolver container, SoundManagerSettings soundManagerSettings,
+        public SoundService(IObjectResolver container, SoundSettings soundSettings,
             SoundParent soundParent)
         {
             _container = container;
-            _soundManagerSettings = soundManagerSettings;
+            _soundSettings = soundSettings;
             _soundParent = soundParent;
-        }
-
-        public void PostInitialize()
-        {
             InitPool();
         }
 
@@ -38,7 +34,7 @@ namespace Game.Scripts.Sound
                 return true;
             }
 
-            return count < _soundManagerSettings.maxSoundInstances;
+            return count < _soundSettings.maxSoundInstances;
         }
 
         public SoundEmitter Get() => _soundEmitterPool.Get();
@@ -52,15 +48,15 @@ namespace Game.Scripts.Sound
                 OnTakeFromPool,
                 OnReturnedToPool,
                 OnDestroyPoolObject,
-                _soundManagerSettings.collectionCheck,
-                _soundManagerSettings.defaultCapacity,
-                _soundManagerSettings.maxPoolSize
+                _soundSettings.collectionCheck,
+                _soundSettings.defaultCapacity,
+                _soundSettings.maxPoolSize
             );
         }
 
         private SoundEmitter CreateSoundEmitter()
         {
-            var soundEmitter = _container.Instantiate(_soundManagerSettings.soundEmitterPrefab, _soundParent.Transform);
+            var soundEmitter = _container.Instantiate(_soundSettings.soundEmitterPrefab, _soundParent.Transform);
             soundEmitter.gameObject.SetActive(false);
             return soundEmitter;
         }
