@@ -1,4 +1,3 @@
-using Game.Scripts.Sound;
 using UnityEngine;
 
 namespace Game.Scripts.Main

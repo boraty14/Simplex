@@ -28,6 +28,7 @@ namespace Game.Scripts.Sound
             SoundData = soundData;
             _audioSource.clip = soundData.clip;
             _audioSource.outputAudioMixerGroup = soundData.mixerGroup;
+            _audioSource.volume = soundData.volume;
             _audioSource.loop = soundData.loop;
             _audioSource.playOnAwake = soundData.playOnAwake;
         }

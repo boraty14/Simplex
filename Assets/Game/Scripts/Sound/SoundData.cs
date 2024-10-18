@@ -11,6 +11,7 @@ namespace Game.Scripts.Sound
     {
         public AudioClip clip;
         public AudioMixerGroup mixerGroup;
+        [Range(0f,1f)] public float volume;
         public bool loop;
         public bool playOnAwake;
     }
