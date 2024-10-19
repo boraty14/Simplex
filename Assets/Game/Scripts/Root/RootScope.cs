@@ -19,6 +19,9 @@ namespace Game.Scripts.Root
             builder.RegisterComponentInHierarchy<RootLoadingScreen>();
             builder.RegisterComponentInHierarchy<SoundParent>();
             
+            // entry points
+            builder.RegisterEntryPoint<RootRunner>();
+            
             // scriptable objects - settings
             builder.RegisterInstance(_soundSettings);
             
